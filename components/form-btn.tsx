@@ -12,7 +12,7 @@ export default function FormButton({ text }: FormButtonProps) {
       disabled={pending}
       className="primary-btn h-10 bg-orange-500 rounded-3xl disabled:bg-neutral-400  disabled:text-neutral-300 disabled:cursor-not-allowed"
     >
-      {pending ? "로딩 중~" : text}
+      {pending ? "Loading ..." : text}
     </button>
   );
 }
