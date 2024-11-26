@@ -15,7 +15,7 @@ export default function FormButton({
   return (
     <button
       disabled={pending || disabled}
-      className="primary-btn h-10 bg-orange-500 rounded-3xl disabled:bg-neutral-400 disabled:text-neutral-300 disabled:cursor-not-allowed"
+      className="primary-btn h-10 bg-slate-300 rounded-3xl disabled:bg-neutral-400 disabled:text-neutral-300 disabled:cursor-not-allowed"
     >
       {pending ? "Loading ..." : text}
     </button>

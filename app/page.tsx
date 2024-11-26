@@ -53,7 +53,7 @@ export default function LogIn() {
           }`}
         />
         {state?.success && (
-          <button className="relative p-4 px-12 text-left rounded-2xl bg-green-800">
+          <button className="relative p-4 px-12 text-left rounded-2xl bg-green-800 text-white">
             <svg
               className="absolute left-2 top-4 w-6"
               data-slot="icon"
