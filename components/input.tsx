@@ -1,20 +1,17 @@
-interface FormInputProps {
-  type: string;
-  placeholder: string;
-  required: boolean;
-  errors: string[];
-  name: string;
+import { InputHTMLAttributes } from "react";
+
+interface InputProps {
+  name?: string;
+  errors?: string[];
   Icon?: React.ComponentType<React.SVGProps<SVGSVGElement>>;
 }
 
 export default function FormInput({
-  type,
-  placeholder,
-  required,
-  errors,
   name,
+  errors = [],
   Icon,
-}: FormInputProps) {
+  ...rest
+}: InputProps & InputHTMLAttributes<HTMLInputElement>) {
   return (
     <div className="flex flex-col gap-2 relative">
       {Icon && (
@@ -22,12 +19,10 @@ export default function FormInput({
       )}
       <input
         className="bg-transparent rounded-3xl w-full h-10 focus:outline-none ring-2 transition ring-neutral-200 focus:ring-neutral-300 border-none placeholder:text-neutral-400 px-8 focus:ring-2 focus:shadow-[inset_0_0_0_2px] focus:shadow-slate-200"
-        type={type}
-        placeholder={placeholder}
-        required={required}
+        {...rest}
         name={name}
       />
-      {errors.map((error, index) => (
+      {errors?.map((error, index) => (
         <span key={index} className="text-red-500 font-medium">
           {error}
         </span>

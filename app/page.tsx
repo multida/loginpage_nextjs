@@ -1,7 +1,7 @@
 "use client";
 
-import FormButton from "@/components/form-btn";
-import FormInput from "@/components/form-input";
+import Button from "@/components/button";
+import Input from "@/components/input";
 import { useFormState } from "react-dom";
 import { handleForm } from "./actions";
 import {
@@ -19,38 +19,40 @@ export default function LogIn() {
         <h1 className="text-5xl text-center">🔥</h1>
       </div>
       <form action={action} className="flex flex-col gap-5">
-        <FormInput
-          name="Email"
+        <Input
+          name="email"
           type="email"
           placeholder="Email"
           required
-          errors={[]}
+          errors={state?.fieldErrors.email}
           Icon={EnvelopeIcon}
         />
-        <FormInput
-          name="Username"
+        <Input
+          name="username"
           type="text"
           placeholder="Username"
           required
-          errors={[]}
+          errors={state?.fieldErrors.username}
           Icon={UserIcon}
+          minLength={5}
         />
-        <FormInput
+        <Input
           name="password"
           type="password"
           placeholder="Password"
           required
-          errors={state?.errors ?? []}
+          errors={state?.fieldErrors.password}
           Icon={LockClosedIcon}
+          minLength={10}
         />
-        <FormButton
+        <Button
           text="Log in"
           disabled={state?.success}
-          className={`${
+          className={
             state?.success
-              ? "bg-gray-400 text-gray-700 cursor-not-allowed"
-              : "bg-blue-600 text-white"
-          }`}
+              ? "primary-btn h-10 bg-slate-300 rounded-3xl cursor-not-allowed "
+              : "primary-btn h-10 bg-slate-300 rounded-3xl disabled:bg-neutral-700 disabled:text-neutral-300 disabled:cursor-not-allowed"
+          }
         />
         {state?.success && (
           <button className="relative p-4 px-12 text-left rounded-2xl bg-green-800 text-white">

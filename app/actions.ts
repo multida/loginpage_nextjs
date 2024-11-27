@@ -1,18 +1,46 @@
 "use server";
-export async function handleForm(prevState: any, formData: FormData) {
-  console.log(prevState);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  const password = formData.get("password") as string;
+import { z } from "zod";
 
-  // 비밀번호가 12345일 경우에 로그인 처리
-  if (password === "12345") {
+const passwordRegex = new RegExp(/^(?=.*\d).+$/);
+
+const formSchema = z.object({
+  username: z
+    .string({
+      invalid_type_error: "username must be a string!",
+      required_error: "Where is my username???",
+    })
+    .min(5, "Way too short!!!")
+    .trim(),
+  email: z
+    .string()
+    .email()
+    .refine((email) => email.endsWith("@zod.com"), {
+      message: "Only '@zod.com' emails are allowed!",
+    }),
+  password: z
+    .string()
+    .min(10, "Password must be at least 10 characters long!")
+    .regex(passwordRegex, "Passwords must contain at least one number"),
+});
+
+export async function handleForm(prevState: any, formData: FormData) {
+  const data = {
+    username: formData.get("username"),
+    email: formData.get("email"),
+    password: formData.get("password"),
+  };
+
+  const result = formSchema.safeParse(data);
+  if (!result.success) {
     return {
-      errors: [],
+      fieldErrors: result.error.flatten().fieldErrors,
+      success: false,
+    };
+  } else {
+    console.log(result.data);
+    return {
+      fieldErrors: {},
       success: true,
     };
   }
-
-  return {
-    errors: ["wrong password"],
-  };
 }
