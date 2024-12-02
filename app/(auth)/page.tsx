@@ -4,7 +4,7 @@ import "@/lib/db";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { useFormState } from "react-dom";
-import { logIn } from "./actions";
+import { logIn } from "../actions";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import {
