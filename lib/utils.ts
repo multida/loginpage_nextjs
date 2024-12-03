@@ -6,6 +6,3 @@ export function formatToTimeAgo(date: string): string {
   const formatter = new Intl.RelativeTimeFormat("ko");
   return formatter.format(diff, "days");
 }
-export function formatToWon(price: number): string {
-  return price.toLocaleString("ko-KR");
-}

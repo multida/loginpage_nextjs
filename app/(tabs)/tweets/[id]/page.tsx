@@ -1,6 +1,5 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 async function getIsOwner(userId: number) {
@@ -44,29 +43,17 @@ export default async function tweetDetail({
   const isOwner = await getIsOwner(tweet.userId);
   return (
     <div>
-      <div className="p-5 flex items-center gap-3 border-b border-neutral-700">
-        <div>
-          <h3>tweet제목</h3>
-        </div>
-      </div>
       <div className="p-5">
         <h1 className="text-2xl font-semibold">{tweet.id}</h1>
-        <p>tweet내용</p>
+        <p>{tweet.tweet}</p>
       </div>
-      <div className="fixed w-full bottom-0 left-0 p-5 pb-10 bg-neutral-800 flex justify-between items-center">
-        <span className="font-semibold text-xl">{tweet.tweet}</span>
-        {isOwner ? (
+      {isOwner ? (
+        <div className="fixed w-full bottom-16  left-0 p-5 pb-10 bg-neutral-800 flex justify-between items-center">
           <button className="bg-red-500 px-5 py-2.5 rounded-md text-white font-semibold">
             Delete tweet
           </button>
-        ) : null}
-        <Link
-          className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold"
-          href={``}
-        >
-          채팅하기
-        </Link>
-      </div>
+        </div>
+      ) : null}
     </div>
   );
 }
