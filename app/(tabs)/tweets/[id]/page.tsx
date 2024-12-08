@@ -4,7 +4,7 @@ import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 import { unstable_cache } from "next/cache";
 import { notFound, redirect } from "next/navigation";
-// import Comment from "@/components/comment";
+import Comment from "@/components/comment";
 import LikeButton from "@/components/LikeButton";
 
 async function getCachedLikeStatus(tweetId: number) {
@@ -26,14 +26,14 @@ async function getTweet(id: number) {
     where: { id },
     include: {
       user: { select: { username: true, email: true } },
-      // comments: {
-      //   select: {
-      //     id: true,
-      //     payload: true,
-      //     userId: true,
-      //     user: { select: { username: true } },
-      //   },
-      // },
+      comment: {
+        select: {
+          id: true,
+          payload: true,
+          userId: true,
+          user: { select: { username: true } },
+        },
+      },
     },
   });
   return tweet;
@@ -43,7 +43,6 @@ async function getLikeStatus(tweetId: number, userId: number) {
   const isLike = await db.like.findUnique({
     where: {
       id: {
-        // 복합 키 이름 (Prisma가 자동으로 생성)
         tweetId,
         userId,
       },
@@ -74,6 +73,7 @@ export default async function TweetDetail({
   const isOwner = await getIsOwner(tweet.userId);
   const { likeCount, isLike } = await getCachedLikeStatus(id);
 
+  // 서버 액션 처리
   const DeleteTweet = async () => {
     "use server";
     await db.tweet.delete({ where: { id } });
@@ -85,6 +85,9 @@ export default async function TweetDetail({
     const commentId = Number(formData.get("commentId"));
     await db.comment.delete({ where: { id: commentId } });
   };
+
+  // 세션을 서버 측에서만 처리
+  const session = await getSession();
 
   return (
     <div className="p-4 m-6 bg-white rounded-xl h-[calc(100vh-120px)]">
@@ -109,17 +112,19 @@ export default async function TweetDetail({
           alt={tweet.photo}
         />
       </div>
-      <p className="mb-4">{tweet.tweet}</p>
+      <div className="flex flex-row justify-between items-center mt-2">
+        <span className="w-full">{tweet.tweet}</span>
 
-      <LikeButton likeCount={likeCount} isLike={isLike} tweetId={id} />
-      <hr className="my-4" />
+        <LikeButton likeCount={likeCount} isLike={isLike} tweetId={id} />
+        <hr className="my-4" />
+      </div>
 
-      {/* <ul className="flex flex-col gap-2">
-        {tweet.comments.map((comment) => (
+      <ul className="flex flex-col gap-2">
+        {tweet.comment.map((comment) => (
           <li key={comment.id} className="flex flex-row items-center gap-4">
             <span>{comment.payload}</span>
             <span className="text-xs">{comment.user.username}</span>
-            {comment.userId === (await getSession()).id && (
+            {comment.userId === session.id && (
               <form action={DeleteComment}>
                 <input type="hidden" name="commentId" value={comment.id} />
                 <button className="text-neutral-400 text-xs hover:text-black">
@@ -131,7 +136,7 @@ export default async function TweetDetail({
         ))}
       </ul>
 
-      <Comment id={id} /> */}
+      <Comment id={id} />
     </div>
   );
 }
