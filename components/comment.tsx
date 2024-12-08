@@ -2,19 +2,40 @@
 import { createComment } from "@/app/(tabs)/tweets/[id]/actions";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useFormState } from "react-dom";
-export default function Comment({ id }) {
-  const [state, dispatch] = useFormState(createComment, {
+import { useRef } from "react";
+
+interface FormState {
+  fieldErrors?: {
+    textareaComment?: string[];
+  };
+  id?: string;
+}
+
+export default function Comment({ id }: { id: string }) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const [state, formAction] = useFormState<FormState, FormData>(createComment, {
     fieldErrors: {},
     id,
   });
+
+  const handleSubmit = async (formData: FormData) => {
+    formAction(formData);
+    // textarea 내용 직접 초기화
+    if (textareaRef.current) {
+      textareaRef.current.value = "";
+    }
+  };
+
   return (
     <>
       <div>
         <form
-          action={dispatch}
+          action={handleSubmit}
           className="flex flex-row justify-start items-center gap-4 mt-6"
         >
+          <input type="hidden" name="id" value={id} />
           <textarea
+            ref={textareaRef}
             name="textareaComment"
             className="ring-1 ring-neutral-300 w-5/6 h-20 focus:outline-none resize-none p-2 text-neutral-800 text-sm"
             placeholder="text"
@@ -23,9 +44,10 @@ export default function Comment({ id }) {
             <PaperAirplaneIcon className="size-6" />
           </button>
         </form>
-        {state.fieldErrors && state.fieldErrors.textareaComment && (
+
+        {state?.fieldErrors?.textareaComment && (
           <span className="text-red-600 text-xs">
-            {state.fieldErrors.textareaComment}
+            {state.fieldErrors.textareaComment[0]}
           </span>
         )}
       </div>
