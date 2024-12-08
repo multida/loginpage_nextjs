@@ -10,6 +10,7 @@ async function getInitialTweets() {
       created_at: true,
       tweet: true,
       id: true,
+      photo: true,
     },
     take: 1,
     orderBy: {

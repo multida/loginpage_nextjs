@@ -1,6 +1,7 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { notFound } from "next/navigation";
+import Image from "next/image";
 
 async function getIsOwner(userId: number) {
   const session = await getSession();
@@ -43,6 +44,14 @@ export default async function tweetDetail({
   const isOwner = await getIsOwner(tweet.userId);
   return (
     <div>
+      <div className="relative size-80 aspect-square">
+        <Image
+          className="object-cover"
+          fill
+          src={tweet.photo}
+          alt={tweet.photo}
+        />
+      </div>
       <div className="p-5">
         <h1 className="text-2xl font-semibold">{tweet.id}</h1>
         <p>{tweet.tweet}</p>
