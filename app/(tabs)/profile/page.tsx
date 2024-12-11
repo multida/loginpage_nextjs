@@ -73,7 +73,7 @@ export default async function Profile() {
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">
           나의 트윗 목록
         </h2>
-        <Tweets />
+        <Tweets showAddTweetButton={false} />
       </section>
 
       {/* 내가 작성한 댓글 목록 */}

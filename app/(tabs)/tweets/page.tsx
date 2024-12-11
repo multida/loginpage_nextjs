@@ -45,7 +45,13 @@ async function getInitialTweets() {
 
 export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 
-export default async function Tweets() {
+interface TweetsProps {
+  showAddTweetButton?: boolean;
+}
+
+export default async function Tweets({
+  showAddTweetButton = true,
+}: TweetsProps) {
   const initialTweets = await getInitialTweets();
   const tweets = await getPosts();
 
@@ -54,12 +60,14 @@ export default async function Tweets() {
       <div>
         <TweetList initialTweets={initialTweets} />
       </div>
-      <Link
-        href="/tweets/add"
-        className="bg-orange-500 flex items-center justify-center rounded-full size-16 fixed bottom-24 right-8 text-white transition-colors hover:bg-orange-400"
-      >
-        <PlusIcon className="size-10" />
-      </Link>
+      {showAddTweetButton && (
+        <Link
+          href="/tweets/add"
+          className="bg-orange-500 flex items-center justify-center rounded-full size-16 fixed bottom-24 right-8 text-white transition-colors hover:bg-orange-400"
+        >
+          <PlusIcon className="size-10" />
+        </Link>
+      )}
     </>
   );
 }
