@@ -38,8 +38,8 @@ export default function TabBar() {
         <span>검색</span>
       </Link>
 
-      <Link href="/profile" className="flex flex-col items-center gap-px">
-        {pathname === "/profile" ? (
+      <Link href="/users" className="flex flex-col items-center gap-px">
+        {pathname === "/users" ? (
           <SolidUserIcon className="w-7 h-7" />
         ) : (
           <OutlineUserIcon className="w-7 h-7" />

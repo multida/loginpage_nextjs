@@ -34,6 +34,7 @@ const formSchema = z
     password: z.string().min(PASSWORD_MIN_LENGTH),
     //.regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
+    bio: z.string().optional(), // Add bio as optional string (if not required)
   })
   .superRefine(async ({ username }, ctx) => {
     const user = await db.user.findUnique({
@@ -78,12 +79,13 @@ const formSchema = z
     path: ["confirm_password"],
   });
 
-export async function createAccount(prevState: any, formData: FormData) {
+export async function editProfile(prevState: any, formData: FormData) {
   const data = {
     username: formData.get("username"),
     email: formData.get("email"),
     password: formData.get("password"),
     confirm_password: formData.get("confirm_password"),
+    bio: formData.get("bio"),
   };
 
   const result = await formSchema.spa(data);
@@ -97,6 +99,7 @@ export async function createAccount(prevState: any, formData: FormData) {
         username: result.data.username,
         email: result.data.email,
         password: hashedPassword,
+        bio: result.data.bio,
       },
       select: {
         id: true,

@@ -2,6 +2,7 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
 import Tweets from "@/app/(tabs)/tweets/page";
+import Link from "next/link";
 
 async function getMyComments(userId: number) {
   const comments = await db.comment.findMany({
@@ -59,9 +60,22 @@ export default async function Profile() {
           <strong>소개:</strong> {user?.bio}
         </p>
         <form action={logOut} className="flex gap-2 mt-4">
-          <button className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">
+          <Link
+            href={`/users/${user?.username}/edit`}
+            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+          >
             정보 수정하기
-          </button>
+          </Link>
+          {/* 
+          {session?.id === user.id && (
+            <Link
+              href={`/users/${user?.username}/edit`}
+              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              정보 수정하기
+            </Link>
+          )} */}
+
           <button className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-red-600">
             Log out
           </button>
