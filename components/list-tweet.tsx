@@ -15,7 +15,7 @@ export default function ListTweet({
 }: ListTweetProps) {
   return (
     <Link href={`/tweets/${id}`} className="flex gap-5">
-      <div className="relative size-28 rounded-md overflow-hidden">
+      <div className="relative size-28 rounded-md overflow-hidden flex-shrink-0">
         <Image fill src={photo} className="object-cover" alt={photo} />
       </div>
       <div className="flex flex-col gap-2">
