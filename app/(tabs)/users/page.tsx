@@ -1,8 +1,34 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
-import Tweets from "@/app/(tabs)/tweets/page";
 import Link from "next/link";
+import Image from "next/image";
+import { formatToTimeAgo } from "@/lib/utils";
+
+async function getMyTweets(userId: number) {
+  const tweets = await db.tweet.findMany({
+    where: {
+      userId: userId,
+    },
+    select: {
+      created_at: true,
+      tweet: true,
+      id: true,
+      photo: true,
+      views: true,
+      _count: {
+        select: {
+          comment: true,
+          like: true,
+        },
+      },
+    },
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+  return tweets;
+}
 
 async function getMyComments(userId: number) {
   const comments = await db.comment.findMany({
@@ -38,6 +64,7 @@ async function getUser() {
 export default async function Profile() {
   const user = await getUser();
   const comments = await getMyComments(user?.id);
+  const myTweets = await getMyTweets(user?.id);
 
   const logOut = async () => {
     "use server";
@@ -66,15 +93,6 @@ export default async function Profile() {
           >
             정보 수정하기
           </Link>
-          {/* 
-          {session?.id === user.id && (
-            <Link
-              href={`/users/${user?.username}/edit`}
-              className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
-            >
-              정보 수정하기
-            </Link>
-          )} */}
 
           <button className="bg-gray-500 text-white px-4 py-2 rounded hover:bg-red-600">
             Log out
@@ -87,7 +105,37 @@ export default async function Profile() {
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">
           나의 트윗 목록
         </h2>
-        <Tweets showAddTweetButton={false} />
+        {myTweets.length > 0 ? (
+          <ul className="space-y-4">
+            {myTweets.map((tweet) => (
+              <li key={tweet.id}>
+                <Link href={`/tweets/${tweet.id}`} className="flex gap-5">
+                  {tweet.photo && (
+                    <div className="relative size-28 rounded-md overflow-hidden flex-shrink-0">
+                      <Image
+                        fill
+                        src={tweet.photo}
+                        className="object-cover"
+                        alt={tweet.tweet}
+                      />
+                    </div>
+                  )}
+                  <div className="flex flex-col gap-2">
+                    <span className="text-lg">{tweet.tweet}</span>
+                    <div className="flex gap-2 *:text-neutral-500">
+                      <span className="text-sm">#{tweet.id}</span>
+                      <span className="text-sm">
+                        {formatToTimeAgo(tweet.created_at.toString())}
+                      </span>
+                    </div>
+                  </div>
+                </Link>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="text-gray-500">아직 작성한 트윗이 없습니다.</p>
+        )}
       </section>
 
       {/* 내가 작성한 댓글 목록 */}
