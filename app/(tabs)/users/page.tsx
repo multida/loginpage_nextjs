@@ -72,7 +72,7 @@ export default async function Profile() {
     redirect("/");
   };
   return (
-    <div className="flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[90vh] overflow-y-auto mt-4">
+    <div className="flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
       {/* 회원 정보 */}
       <section>
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">회원 정보</h2>

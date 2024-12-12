@@ -47,7 +47,7 @@ export default function TweetList({ initialTweets }: TweetListProps) {
     };
   }, [page]);
   return (
-    <div className="p-5 flex flex-col gap-5">
+    <div className="p-5 flex flex-col gap-5 h-[calc(100vh-100px)] overflow-y-auto">
       {tweets.map((tweet) => (
         <ListTweet key={tweet.id} {...tweet} />
       ))}

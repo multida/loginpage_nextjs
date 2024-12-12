@@ -41,7 +41,7 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4 py-8 h-[calc(100vh-100px)] overflow-y-auto">
       <div className="mb-6">
         <input
           type="text"
