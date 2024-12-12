@@ -89,7 +89,7 @@ export default async function TweetDetail({
   const session = await getSession();
 
   return (
-    <div className="p-4 m-6 bg-white rounded-xl h-[calc(100vh-100px)] overflow-y-auto">
+    <div className="m-6 flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
       <div className="flex flex-row justify-between">
         <span>작성자: {tweet.user.username}</span>
         <span>{formatToTimeAgo(tweet.updated_at.toString())}</span>

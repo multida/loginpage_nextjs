@@ -17,7 +17,7 @@ export default function LogIn() {
   const [state, dispatch] = useFormState(logIn, null);
 
   return (
-    <div className="flex flex-col m-auto gap-10 py-8 px-6 max-w-screen-md">
+    <div className="flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
       <div className="flex flex-col gap-2 *:font-medium">
         <h1 className="text-5xl text-center">🔥</h1>
       </div>

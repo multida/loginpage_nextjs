@@ -10,7 +10,10 @@ export default function AddTweet() {
 
   return (
     <div>
-      <form action={dispatch} className="p-5 pb-28 flex flex-col gap-5">
+      <form
+        action={dispatch}
+        className="flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4"
+      >
         <Input
           name="tweet"
           type="text"
