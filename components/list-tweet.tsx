@@ -5,19 +5,10 @@ interface ListTweetProps {
   created_at: Date;
   id: number;
   tweet: string;
-  photo: string;
 }
-export default function ListTweet({
-  created_at,
-  id,
-  tweet,
-  photo,
-}: ListTweetProps) {
+export default function ListTweet({ created_at, id, tweet }: ListTweetProps) {
   return (
     <Link href={`/tweets/${id}`} className="flex gap-5">
-      <div className="relative size-28 rounded-md overflow-hidden flex-shrink-0">
-        <Image fill src={photo} className="object-cover" alt={photo} />
-      </div>
       <div className="flex flex-col gap-2">
         <span className="text-lg">{tweet}</span>
         <div className="flex gap-2 *:text-neutral-500">

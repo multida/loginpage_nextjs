@@ -18,8 +18,7 @@ export default function EditUser() {
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
       <div className="flex flex-col gap-2 *:font-medium">
-        <h1 className="text-2xl">안녕하세요!</h1>
-        <h2 className="text-xl">Fill in the form below to join!</h2>
+        <h1 className="text-2xl">회원정보 수정하기</h1>
       </div>
       <form action={dispatch} className="flex flex-col gap-3">
         <Input
@@ -60,7 +59,7 @@ export default function EditUser() {
           minLength={PASSWORD_MIN_LENGTH}
           errors={state?.fieldErrors.confirm_password}
         />
-        <Button text="Create account" />
+        <Button text="수정 완료" />
       </form>
     </div>
   );

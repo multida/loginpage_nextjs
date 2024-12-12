@@ -14,7 +14,6 @@ async function getMyTweets(userId: number) {
       created_at: true,
       tweet: true,
       id: true,
-      photo: true,
       views: true,
       _count: {
         select: {
@@ -110,16 +109,6 @@ export default async function Profile() {
             {myTweets.map((tweet) => (
               <li key={tweet.id}>
                 <Link href={`/tweets/${tweet.id}`} className="flex gap-5">
-                  {tweet.photo && (
-                    <div className="relative size-28 rounded-md overflow-hidden flex-shrink-0">
-                      <Image
-                        fill
-                        src={tweet.photo}
-                        className="object-cover"
-                        alt={tweet.tweet}
-                      />
-                    </div>
-                  )}
                   <div className="flex flex-col gap-2">
                     <span className="text-lg">{tweet.tweet}</span>
                     <div className="flex gap-2 *:text-neutral-500">

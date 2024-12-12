@@ -1,6 +1,5 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 import { unstable_cache } from "next/cache";
 import { notFound, redirect } from "next/navigation";
@@ -104,14 +103,6 @@ export default async function TweetDetail({
         </form>
       )}
 
-      <div className="relative w-full h-96">
-        <Image
-          fill
-          className="object-cover"
-          src={tweet.photo}
-          alt={tweet.photo}
-        />
-      </div>
       <div className="flex flex-row justify-between items-center mt-2">
         <span className="w-full">{tweet.tweet}</span>
 
@@ -119,9 +110,12 @@ export default async function TweetDetail({
         <hr className="my-4" />
       </div>
 
-      <ul className="flex flex-col gap-2">
+      <ul className="flex flex-col gap-2 mt-16 border-t-2 border-gray-200 pt-6">
         {tweet.comment.map((comment) => (
-          <li key={comment.id} className="flex flex-row items-center gap-4">
+          <li
+            key={comment.id}
+            className="flex flex-row items-center gap-4 border-b-2 border-dashed border-gray-100 pb-2"
+          >
             <span>{comment.payload}</span>
             <span className="text-xs">{comment.user.username}</span>
             {comment.userId === session.id && (
