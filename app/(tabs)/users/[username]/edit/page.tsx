@@ -5,12 +5,6 @@ import Input from "@/components/input";
 import { useFormState } from "react-dom";
 import { editProfile } from "./actions";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
-import {
-  EnvelopeIcon,
-  UserIcon,
-  BriefcaseIcon,
-  LockClosedIcon,
-} from "@heroicons/react/24/outline";
 
 export default function EditUser() {
   const [state, dispatch] = useFormState(editProfile, null);

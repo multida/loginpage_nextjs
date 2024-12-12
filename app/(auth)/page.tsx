@@ -7,11 +7,7 @@ import { useFormState } from "react-dom";
 import { logIn } from "../actions";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
-import {
-  PASSWORD_MIN_LENGTH,
-  PASSWORD_REGEX,
-  PASSWORD_REGEX_ERROR,
-} from "@/lib/constants";
+import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 
 export default function LogIn() {
   const [state, dispatch] = useFormState(logIn, null);

@@ -2,7 +2,6 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 
 async function getMyTweets(userId: number) {

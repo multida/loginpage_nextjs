@@ -1,13 +1,7 @@
 import TweetList from "@/components/tweet-list";
 import db from "@/lib/db";
 import { PlusIcon } from "@heroicons/react/24/solid";
-import { formatToTimeAgo } from "@/lib/utils";
-
 import { Prisma } from "@prisma/client";
-import {
-  ChatBubbleBottomCenterIcon,
-  HandThumbUpIcon,
-} from "@heroicons/react/24/outline";
 import Link from "next/link";
 
 async function getPosts() {
@@ -56,14 +50,14 @@ export default async function Tweets({
 
   return (
     <>
-      <div className="relative flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
+      <div className="relative">
         <div>
           <TweetList initialTweets={initialTweets} />
         </div>
         {showAddTweetButton && (
           <Link
             href="/tweets/add"
-            className="bg-orange-500 flex items-center justify-center rounded-full size-16 absolute bottom-24 right-8 text-white transition-colors hover:bg-orange-400"
+            className="bg-orange-500 flex items-center justify-center rounded-full size-16 absolute bottom-14 right-8 text-white transition-colors hover:bg-orange-400"
           >
             <PlusIcon className="size-10" />
           </Link>
