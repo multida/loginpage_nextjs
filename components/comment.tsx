@@ -37,7 +37,7 @@ export default function Comment({ id }: { id: string }) {
             ref={textareaRef}
             name="textareaComment"
             className="ring-1 ring-neutral-300 w-5/6 h-20 focus:outline-none resize-none p-2 text-neutral-800 text-sm"
-            placeholder="text"
+            placeholder="댓글을 달아주세요."
           />
           <button className="w-1/6 flex items-center justify-center shadow-md rounded-lg h-20">
             <PaperAirplaneIcon className="size-6" />
