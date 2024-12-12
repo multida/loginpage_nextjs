@@ -88,7 +88,7 @@ export default async function Profile() {
         <form action={logOut} className="flex gap-2 mt-4">
           <Link
             href={`/users/${user?.username}/edit`}
-            className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            className="bg-orange-500 text-white px-4 py-2 rounded hover:bg-orange-600"
           >
             정보 수정하기
           </Link>

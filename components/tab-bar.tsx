@@ -29,8 +29,8 @@ export default function TabBar() {
         )}
         <span>트윗</span>
       </Link>
-      <Link href="/life" className="flex flex-col items-center gap-px">
-        {pathname === "/life" ? (
+      <Link href="/search" className="flex flex-col items-center gap-px">
+        {pathname === "/search" ? (
           <SolidNewspaperIcon className="w-7 h-7" />
         ) : (
           <OutlineNewspaperIcon className="w-7 h-7" />
