@@ -28,13 +28,11 @@ const formSchema = z
         required_error: "Where is my username???",
       })
       .trim()
-      // .transform((username) => `🔥 ${username} 🔥`)
       .refine(checkUsername, "No potatoes allowed!"),
     email: z.string().email().toLowerCase(),
     password: z.string().min(PASSWORD_MIN_LENGTH),
-    //.regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
-    bio: z.string().optional(), // Add bio as optional string (if not required)
+    bio: z.string().optional(),
   })
   .superRefine(async ({ username }, ctx) => {
     const user = await db.user.findUnique({

@@ -20,7 +20,6 @@ export default function Comment({ id }: { id: string }) {
 
   const handleSubmit = async (formData: FormData) => {
     formAction(formData);
-    // textarea 내용 직접 초기화
     if (textareaRef.current) {
       textareaRef.current.value = "";
     }

@@ -72,7 +72,6 @@ export default async function TweetDetail({
   const isOwner = await getIsOwner(tweet.userId);
   const { likeCount, isLike } = await getCachedLikeStatus(id);
 
-  // 서버 액션 처리
   const DeleteTweet = async () => {
     "use server";
     await db.tweet.delete({ where: { id } });
@@ -85,7 +84,6 @@ export default async function TweetDetail({
     await db.comment.delete({ where: { id: commentId } });
   };
 
-  // 세션을 서버 측에서만 처리
   const session = await getSession();
 
   return (

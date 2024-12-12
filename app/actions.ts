@@ -18,11 +18,6 @@ const checkEmailExists = async (email: string) => {
       id: true,
     },
   });
-  // if(user){
-  //   return true
-  // } else {
-  //   return false
-  // }
   return Boolean(user);
 };
 const formSchema = z.object({
@@ -34,8 +29,6 @@ const formSchema = z.object({
   password: z.string({
     required_error: "Password is required",
   }),
-  // .min(PASSWORD_MIN_LENGTH),
-  // .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
 });
 export async function logIn(prevState: any, formData: FormData) {
   const data = {

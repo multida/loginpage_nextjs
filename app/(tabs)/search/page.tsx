@@ -1,22 +1,21 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import ListTweet from "@/components/list-tweet"; // 트윗 렌더링 컴포넌트
-import { fetchTweets } from "./actions"; // actions에서 트윗 불러오기 함수
+import ListTweet from "@/components/list-tweet";
+import { fetchTweets } from "./actions";
 
 interface Tweet {
   id: number;
   tweet: string;
-  created_at: Date; // Date 타입으로 지정
+  created_at: Date;
   user: { username: string };
 }
 
 export default function SearchPage() {
-  const [tweets, setTweets] = useState<Tweet[]>([]); // 전체 트윗 데이터
-  const [searchResults, setSearchResults] = useState<Tweet[]>([]); // 검색 결과
-  const [keyword, setKeyword] = useState(""); // 검색어 입력값
+  const [tweets, setTweets] = useState<Tweet[]>([]);
+  const [searchResults, setSearchResults] = useState<Tweet[]>([]);
+  const [keyword, setKeyword] = useState("");
 
-  // 초기 트윗 데이터 가져오기
   useEffect(() => {
     const loadTweets = async () => {
       const fetchedTweets = await fetchTweets();
@@ -25,13 +24,12 @@ export default function SearchPage() {
     loadTweets();
   }, []);
 
-  // 검색어에 따라 결과 필터링
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value.toLowerCase();
     setKeyword(searchValue);
 
     if (searchValue.trim() === "") {
-      setSearchResults([]); // 검색어가 없으면 결과 초기화
+      setSearchResults([]);
     } else {
       const filtered = tweets.filter((tweet) =>
         tweet.tweet.toLowerCase().includes(searchValue)
@@ -52,13 +50,13 @@ export default function SearchPage() {
         />
       </div>
 
-      {searchResults.length > 0 ? ( // 검색 결과가 있는 경우에만 표시
+      {searchResults.length > 0 ? (
         <div className="p-5 flex flex-col gap-5">
           {searchResults.map((tweet) => (
             <ListTweet key={tweet.id} {...tweet} />
           ))}
         </div>
-      ) : keyword.trim() !== "" ? ( // 검색어가 있지만 결과가 없는 경우
+      ) : keyword.trim() !== "" ? (
         <p className="text-center text-gray-500">검색 결과가 없습니다.</p>
       ) : null}
     </div>

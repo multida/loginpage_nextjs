@@ -18,9 +18,6 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   } else {
-    // if (exists) {
-    //   return NextResponse.redirect(new URL("/tweets", request.url));
-    // }
     if (exists) {
       return NextResponse.redirect(new URL("/", request.url));
     }

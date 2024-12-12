@@ -1,18 +1,17 @@
 "use server";
 
-import db from "@/lib/db"; // Prisma Client 초기화
+import db from "@/lib/db";
 
-// 전체 트윗 데이터를 가져오는 함수
 export async function fetchTweets() {
   try {
     const tweets = await db.tweet.findMany({
       include: {
         user: {
-          select: { username: true }, // 유저 이름만 포함
+          select: { username: true },
         },
       },
       orderBy: {
-        created_at: "desc", // 최신순 정렬
+        created_at: "desc",
       },
     });
 

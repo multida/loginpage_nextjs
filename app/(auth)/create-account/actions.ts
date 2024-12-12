@@ -28,11 +28,9 @@ const formSchema = z
         required_error: "Where is my username???",
       })
       .trim()
-      // .transform((username) => `🔥 ${username} 🔥`)
       .refine(checkUsername, "No potatoes allowed!"),
     email: z.string().email().toLowerCase(),
     password: z.string().min(PASSWORD_MIN_LENGTH),
-    //.regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
   })
   .superRefine(async ({ username }, ctx) => {
