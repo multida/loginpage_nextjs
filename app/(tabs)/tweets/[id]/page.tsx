@@ -87,7 +87,7 @@ export default async function TweetDetail({
   const session = await getSession();
 
   return (
-    <div className="m-6 flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
+    <div className="m-6 flex flex-col gap-4 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
       <div className="flex flex-row justify-between">
         <span>작성자: {tweet.user.username}</span>
         <span>{formatToTimeAgo(tweet.updated_at.toString())}</span>
@@ -101,14 +101,13 @@ export default async function TweetDetail({
         </form>
       )}
 
-      <div className="flex flex-row justify-between items-center mt-2">
+      <div className="flex flex-col justify-between gap-1">
         <span className="w-full">{tweet.tweet}</span>
 
         <LikeButton likeCount={likeCount} isLike={isLike} tweetId={id} />
-        <hr className="my-4" />
       </div>
 
-      <ul className="flex flex-col gap-2 mt-16 border-t-2 border-gray-200 pt-6">
+      <ul className="flex flex-col gap-2 border-t-2 border-gray-200 pt-6">
         {tweet.comment.map((comment) => (
           <li
             key={comment.id}

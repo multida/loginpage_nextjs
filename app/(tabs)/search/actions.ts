@@ -24,7 +24,6 @@ export async function fetchTweets() {
       },
     }));
   } catch (error) {
-    console.error("Failed to fetch tweets:", error);
     return [];
   }
 }

@@ -21,18 +21,29 @@ export default function Comment({ id }: { id: number }) {
       <div>
         <form
           action={handleSubmit}
-          className="flex flex-row justify-start items-center gap-4 mt-6"
+          className="flex flex-row items-center bg-gray-100 rounded-2xl p-2 space-x-2"
         >
-          <input type="hidden" name="id" value={id} />
           <textarea
             value={comment}
             onChange={(e) => setComment(e.target.value)}
             name="textareaComment"
-            className="ring-1 ring-neutral-300 w-5/6 h-20 focus:outline-none resize-none p-2 text-neutral-800 text-sm"
-            placeholder="댓글을 달아주세요."
+            rows={2}
+            className="w-full bg-transparent text-sm text-gray-800 placeholder-gray-500 resize-none focus:outline-none p-2"
+            placeholder="댓글을 달아주세요😁"
           />
-          <button className="w-1/6 flex items-center justify-center shadow-md rounded-lg h-20">
-            <PaperAirplaneIcon className="size-6" />
+          <button
+            type="submit"
+            disabled={comment.length === 0}
+            className={`
+      rounded-full p-2 transition-all duration-200 ease-in-out
+      ${
+        comment.length > 0
+          ? "text-blue-500 hover:bg-blue-50 border border-blue-500"
+          : "text-gray-400 border border-gray-300 cursor-not-allowed"
+      }
+    `}
+          >
+            <PaperAirplaneIcon className="size-5" />
           </button>
         </form>
 

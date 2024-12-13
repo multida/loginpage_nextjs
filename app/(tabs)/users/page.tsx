@@ -72,7 +72,6 @@ export default async function Profile() {
   };
   return (
     <div className="flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
-      {/* 회원 정보 */}
       <section>
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">회원 정보</h2>
         <p className="text-gray-700">
@@ -97,8 +96,6 @@ export default async function Profile() {
           </button>
         </form>
       </section>
-
-      {/* 나의 트윗 목록 */}
       <section>
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">
           나의 트윗 목록
@@ -125,8 +122,6 @@ export default async function Profile() {
           <p className="text-gray-500">아직 작성한 트윗이 없습니다.</p>
         )}
       </section>
-
-      {/* 내가 작성한 댓글 목록 */}
       <section>
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">
           내가 작성한 댓글 목록
