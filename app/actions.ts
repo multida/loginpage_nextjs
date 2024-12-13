@@ -9,6 +9,15 @@ import db from "@/lib/db";
 import { z } from "zod";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+
+// 타입 정의 추가
+type LoginState = {
+  fieldErrors?: {
+    email?: string[];
+    password?: string[];
+  };
+};
+
 const checkEmailExists = async (email: string) => {
   const user = await db.user.findUnique({
     where: {
@@ -20,6 +29,7 @@ const checkEmailExists = async (email: string) => {
   });
   return Boolean(user);
 };
+
 const formSchema = z.object({
   email: z
     .string()
@@ -30,13 +40,18 @@ const formSchema = z.object({
     required_error: "Password is required",
   }),
 });
-export async function logIn(prevState: any, formData: FormData) {
+
+export async function logIn(
+  prevState: LoginState,
+  formData: FormData
+): Promise<LoginState> {
   const data = {
     email: formData.get("email"),
     password: formData.get("password"),
   };
 
   const result = await formSchema.spa(data);
+
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -49,10 +64,12 @@ export async function logIn(prevState: any, formData: FormData) {
         password: true,
       },
     });
+
     const ok = await bcrypt.compare(
       result.data.password,
       user!.password ?? "xxxx"
     );
+
     if (ok) {
       const session = await getSession();
       session.id = user!.id;

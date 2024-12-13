@@ -6,6 +6,17 @@ import { z } from "zod";
 import { redirect } from "next/navigation";
 import getSession from "@/lib/session";
 
+// 타입 정의 추가
+type EditProfileState = {
+  fieldErrors?: {
+    username?: string[];
+    email?: string[];
+    password?: string[];
+    confirm_password?: string[];
+    bio?: string[];
+  };
+};
+
 const checkUsername = (username: string) => !username.includes("potato");
 
 const checkPasswords = ({
@@ -73,7 +84,10 @@ const formSchema = z
     path: ["confirm_password"],
   });
 
-export async function editProfile(prevState: any, formData: FormData) {
+export async function editProfile(
+  prevState: EditProfileState,
+  formData: FormData
+): Promise<EditProfileState> {
   const data = {
     username: formData.get("username"),
     email: formData.get("email"),
@@ -83,6 +97,7 @@ export async function editProfile(prevState: any, formData: FormData) {
   };
 
   const result = await formSchema.spa(data);
+
   if (!result.success) {
     return result.error.flatten();
   } else {
@@ -98,9 +113,11 @@ export async function editProfile(prevState: any, formData: FormData) {
         id: true,
       },
     });
+
     const session = await getSession();
     session.id = user.id;
     await session.save();
+
     redirect("/users");
   }
 }
