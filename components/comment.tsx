@@ -12,6 +12,7 @@ export default function Comment({ id }: { id: number }) {
   });
 
   const handleSubmit = (formData: FormData) => {
+    formData.append("id", id.toString());
     dispatch(formData);
     setComment("");
   };
