@@ -75,7 +75,7 @@ export default async function TweetDetail({
   const DeleteTweet = async () => {
     "use server";
     await db.tweet.delete({ where: { id } });
-    redirect("/tweetList");
+    redirect("/tweets");
   };
 
   const DeleteComment = async (formData: FormData) => {
