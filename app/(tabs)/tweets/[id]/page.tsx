@@ -1,7 +1,7 @@
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { formatToTimeAgo } from "@/lib/utils";
-import { unstable_cache } from "next/cache";
+import { revalidatePath, unstable_cache } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import Comment from "@/components/comment";
 import LikeButton from "@/components/LikeButton";
@@ -80,8 +80,30 @@ export default async function TweetDetail({
 
   const DeleteComment = async (formData: FormData) => {
     "use server";
+    const session = await getSession();
     const commentId = Number(formData.get("commentId"));
-    await db.comment.delete({ where: { id: commentId } });
+
+    try {
+      const comment = await db.comment.findUnique({
+        where: {
+          id: commentId,
+          userId: session.id,
+        },
+      });
+
+      if (!comment) {
+        // 에러 발생 시 리다이렉트
+        redirect(`/tweets/${tweet.id}?error=댓글을 삭제할 수 없습니다.`);
+      }
+
+      await db.comment.delete({
+        where: { id: commentId },
+      });
+
+      revalidatePath(`/tweets/${comment.tweetId}`);
+    } catch (error) {
+      redirect(`/tweets/${tweet.id}?error=삭제 중 오류가 발생했습니다.`);
+    }
   };
 
   const session = await getSession();
