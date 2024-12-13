@@ -2,27 +2,18 @@
 import { createComment } from "@/app/(tabs)/tweets/[id]/actions";
 import { PaperAirplaneIcon } from "@heroicons/react/24/solid";
 import { useFormState } from "react-dom";
-import { useRef } from "react";
+import { useState } from "react";
 
-interface FormState {
-  fieldErrors?: {
-    textareaComment?: string[];
-  };
-  id?: string;
-}
-
-export default function Comment({ id }: { id: string }) {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const [state, formAction] = useFormState<FormState, FormData>(createComment, {
+export default function Comment({ id }: { id: number }) {
+  const [comment, setComment] = useState("");
+  const [state, dispatch] = useFormState(createComment, {
     fieldErrors: {},
-    id,
+    id: id,
   });
 
-  const handleSubmit = async (formData: FormData) => {
-    formAction(formData);
-    if (textareaRef.current) {
-      textareaRef.current.value = "";
-    }
+  const handleSubmit = (formData: FormData) => {
+    dispatch(formData);
+    setComment("");
   };
 
   return (
@@ -34,7 +25,8 @@ export default function Comment({ id }: { id: string }) {
         >
           <input type="hidden" name="id" value={id} />
           <textarea
-            ref={textareaRef}
+            value={comment}
+            onChange={(e) => setComment(e.target.value)}
             name="textareaComment"
             className="ring-1 ring-neutral-300 w-5/6 h-20 focus:outline-none resize-none p-2 text-neutral-800 text-sm"
             placeholder="댓글을 달아주세요."

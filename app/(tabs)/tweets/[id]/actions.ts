@@ -42,6 +42,7 @@ export async function createComment(prev: any, formData: FormData) {
   const result = await commentSchema.spa(form);
   if (!result.success) {
     return {
+      ...prev,
       fieldErrors: result.error.flatten().fieldErrors,
     };
   } else {
@@ -49,9 +50,12 @@ export async function createComment(prev: any, formData: FormData) {
     if (!session || !session.id) {
       throw new Error("사용자가 로그인되지 않았습니다.");
     }
-    if (!prev.id) {
+    const tweetId = prev?.id || Number(formData.get("id"));
+
+    if (!tweetId) {
       throw new Error("Tweet ID가 유효하지 않습니다.");
     }
+
     const comment = await db.comment.create({
       data: {
         payload: result.data.textareaComment,
@@ -62,7 +66,7 @@ export async function createComment(prev: any, formData: FormData) {
         },
         tweet: {
           connect: {
-            id: prev.id,
+            id: tweetId,
           },
         },
       },
@@ -70,6 +74,7 @@ export async function createComment(prev: any, formData: FormData) {
         id: true,
       },
     });
-    redirect(`/tweets/${prev.id}`);
+
+    redirect(`/tweets/${tweetId}`);
   }
 }
