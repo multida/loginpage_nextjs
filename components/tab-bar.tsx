@@ -3,15 +3,11 @@
 import {
   HomeIcon as SolidHomeIcon,
   NewspaperIcon as SolidNewspaperIcon,
-  ChatBubbleOvalLeftEllipsisIcon as SolidChatIcon,
-  VideoCameraIcon as SolidVideoCameraIcon,
   UserIcon as SolidUserIcon,
 } from "@heroicons/react/24/solid";
 import {
   HomeIcon as OutlineHomeIcon,
   NewspaperIcon as OutlineNewspaperIcon,
-  ChatBubbleOvalLeftEllipsisIcon as OutlineChatIcon,
-  VideoCameraIcon as OutlineVideoCameraIcon,
   UserIcon as OutlineUserIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";

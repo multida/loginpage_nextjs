@@ -23,7 +23,9 @@ export const likePost = async (tweetId: number) => {
       },
     });
     revalidateTag(`like-status-${tweetId}`);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 export const dislikePost = async (tweetId: number) => {
@@ -39,7 +41,9 @@ export const dislikePost = async (tweetId: number) => {
       },
     });
     revalidateTag(`like-status-${tweetId}`);
-  } catch (e) {}
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 const commentSchema = z.object({
@@ -90,6 +94,7 @@ export async function createComment(
         id: true,
       },
     });
+    console.log(comment);
 
     redirect(`/tweets/${tweetId}`);
   }

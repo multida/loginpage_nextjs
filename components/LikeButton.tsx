@@ -14,6 +14,8 @@ export default function LikeButton({ likeCount, isLike, tweetId }: Props) {
   const [state, reducerFn] = useOptimistic(
     { isLike, likeCount },
     (prevState, payload) => {
+      console.log("Optimistic update payload:", payload);
+
       return {
         isLike: !prevState.isLike,
         likeCount: prevState.isLike

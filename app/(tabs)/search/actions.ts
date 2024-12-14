@@ -24,6 +24,6 @@ export async function fetchTweets() {
       },
     }));
   } catch (error) {
-    return [];
+    console.error(error);
   }
 }

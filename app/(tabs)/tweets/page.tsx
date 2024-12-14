@@ -47,7 +47,7 @@ export default async function Tweets({
 }: TweetsProps) {
   const initialTweets = await getInitialTweets();
   const tweets = await getPosts();
-
+  console.log(tweets);
   return (
     <>
       <div className="relative">
