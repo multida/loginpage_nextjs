@@ -6,14 +6,13 @@ import { z } from "zod";
 import { redirect } from "next/navigation";
 import getSession from "@/lib/session";
 
-// 타입 정의 추가
-type CreateAccountState = {
+export type CreateAccountState = {
   fieldErrors?: {
     username?: string[];
     email?: string[];
     password?: string[];
     confirm_password?: string[];
-  };
+  } | null;
 };
 
 const checkUsername = (username: string) => !username.includes("potato");
@@ -83,9 +82,9 @@ const formSchema = z
   });
 
 export async function createAccount(
-  prevState: CreateAccountState,
+  prevState: CreateAccountState | null,
   formData: FormData
-): Promise<CreateAccountState> {
+): Promise<CreateAccountState | null> {
   const data = {
     username: formData.get("username"),
     email: formData.get("email"),
@@ -96,7 +95,7 @@ export async function createAccount(
   const result = await formSchema.spa(data);
 
   if (!result.success) {
-    return result.error.flatten();
+    return { fieldErrors: result.error.flatten().fieldErrors };
   } else {
     const hashedPassword = await bcrypt.hash(result.data.password, 12);
     const user = await db.user.create({

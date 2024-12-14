@@ -19,7 +19,7 @@ export default function AddTweet() {
           type="text"
           required
           placeholder="트윗 내용"
-          errors={state?.fieldErrors.tweet}
+          errors={state?.fieldErrors?.tweet}
         />
         <Button text="작성 완료" />
       </form>

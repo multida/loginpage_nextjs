@@ -5,10 +5,12 @@ import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
 
-// 타입 정의를 같은 파일에 추가
-type ActionState = {
-  success: boolean;
-  errors?: Record<string, string[]>;
+export type ActionState = {
+  success?: boolean;
+  fieldErrors?: {
+    tweet?: string[];
+    session?: string[];
+  } | null;
 };
 
 const productSchema = z.object({
@@ -18,9 +20,9 @@ const productSchema = z.object({
 });
 
 export async function uploadTweet(
-  _: ActionState,
+  prevState: ActionState | null,
   formData: FormData
-): Promise<ActionState> {
+): Promise<ActionState | null> {
   const data = {
     tweet: formData.get("tweet"),
   };
@@ -29,7 +31,7 @@ export async function uploadTweet(
   if (!result.success) {
     return {
       success: false,
-      errors: result.error.flatten().fieldErrors,
+      fieldErrors: result.error.flatten().fieldErrors,
     };
   }
 
@@ -55,6 +57,6 @@ export async function uploadTweet(
 
   return {
     success: false,
-    errors: { session: ["No active session found"] },
+    fieldErrors: { session: ["No active session found"] },
   };
 }
