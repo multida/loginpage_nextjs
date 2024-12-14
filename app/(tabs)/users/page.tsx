@@ -113,7 +113,6 @@ export default async function Profile() {
                   <div className="flex flex-col gap-2">
                     <span className="text-lg">{tweet.tweet}</span>
                     <div className="flex gap-2 *:text-neutral-500">
-                      <span className="text-sm">#{tweet.id}</span>
                       <span className="text-sm">
                         {formatToTimeAgo(tweet.created_at.toString())}
                       </span>

@@ -13,27 +13,35 @@ interface Props {
 export default function LikeButton({ likeCount, isLike, tweetId }: Props) {
   const [state, reducerFn] = useOptimistic(
     { isLike, likeCount },
-    (prevState, payload) => {
-      console.log("Optimistic update payload:", payload);
-
-      return {
-        isLike: !prevState.isLike,
-        likeCount: prevState.isLike
-          ? prevState.likeCount - 1
-          : prevState.likeCount + 1,
-      };
-    }
+    (prevState) => ({
+      isLike: !prevState.isLike,
+      likeCount: prevState.isLike
+        ? prevState.likeCount - 1
+        : prevState.likeCount + 1,
+    })
   );
+
   const onClick = async () => {
+    const previousState = { ...state };
     startTransition(() => {
       reducerFn(undefined);
     });
-    if (isLike) {
-      await dislikePost(tweetId);
-    } else {
-      await likePost(tweetId);
+
+    try {
+      if (state.isLike) {
+        await dislikePost(tweetId);
+      } else {
+        await likePost(tweetId);
+      }
+    } catch (error) {
+      console.error("Error updating like status:", error);
+      // Rollback optimistic update
+      startTransition(() => {
+        reducerFn(previousState);
+      });
     }
   };
+
   return (
     <div>
       <button onClick={onClick}>
