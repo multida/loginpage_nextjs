@@ -5,27 +5,32 @@ import Link from "next/link";
 import { formatToTimeAgo } from "@/lib/utils";
 
 async function getMyTweets(userId: number) {
-  const tweets = await db.tweet.findMany({
-    where: {
-      userId: userId,
-    },
-    select: {
-      created_at: true,
-      tweet: true,
-      id: true,
-      views: true,
-      _count: {
-        select: {
-          comment: true,
-          like: true,
+  try {
+    const tweets = await db.tweet.findMany({
+      where: {
+        userId: userId,
+      },
+      select: {
+        created_at: true,
+        tweet: true,
+        id: true,
+        views: true,
+        _count: {
+          select: {
+            comment: true,
+            like: true,
+          },
         },
       },
-    },
-    orderBy: {
-      created_at: "desc",
-    },
-  });
-  return tweets;
+      orderBy: {
+        created_at: "desc",
+      },
+    });
+    return tweets;
+  } catch (error) {
+    console.error("Error fetching tweets:", error);
+    return [];
+  }
 }
 
 async function getMyComments(userId: number) {

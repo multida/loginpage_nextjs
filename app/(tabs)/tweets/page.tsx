@@ -33,8 +33,6 @@ export default async function Tweets() {
     <>
       <div className="relative">
         <div>
-          {/* <TweetList initialTweets={initialTweets} /> */}
-
           {initialTweets.length > 0 ? (
             <TweetList initialTweets={initialTweets} />
           ) : (
