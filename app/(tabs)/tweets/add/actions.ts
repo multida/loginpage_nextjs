@@ -3,7 +3,7 @@
 import { z } from "zod";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 
 export type ActionState = {
   success?: boolean;
@@ -52,7 +52,7 @@ export async function uploadTweet(
       },
     });
 
-    revalidatePath(`/tweets/${tweet.id}`);
+    redirect(`/tweets/${tweet.id}`);
   }
 
   return {
