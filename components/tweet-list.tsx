@@ -51,6 +51,11 @@ export default function TweetList({ initialTweets }: TweetListProps) {
       {tweets.map((tweet) => (
         <ListTweet key={tweet.id} {...tweet} />
       ))}
+      {tweets.length === 0 && (
+        <span className="mx-auto block mt-20 text-center">
+          No tweets found!
+        </span>
+      )}
       {!isLastPage ? (
         <span
           ref={trigger}
