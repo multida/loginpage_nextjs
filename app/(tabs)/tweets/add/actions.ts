@@ -3,7 +3,6 @@
 import { z } from "zod";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
-import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 
 export type ActionState = {
