@@ -1,6 +1,7 @@
 import TweetList from "@/components/tweet-list";
 import db from "@/lib/db";
 import { PlusIcon } from "@heroicons/react/24/solid";
+import { Prisma } from "@prisma/client";
 import Link from "next/link";
 
 async function getInitialTweets() {
@@ -22,6 +23,8 @@ async function getInitialTweets() {
     return [];
   }
 }
+
+export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 
 export default async function Tweets() {
   const initialTweets = await getInitialTweets().catch(() => []);
