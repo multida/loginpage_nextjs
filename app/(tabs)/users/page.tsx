@@ -106,14 +106,14 @@ export default async function Profile() {
           나의 트윗 목록
         </h2>
         {myTweets.length > 0 ? (
-          <ul className="space-y-4">
+          <ul className="space-y-4 flex flex-col">
             {myTweets.map((tweet) => (
               <li key={tweet.id}>
                 <Link href={`/tweets/${tweet.id}`} className="flex gap-5">
-                  <div className="flex flex-col gap-2">
-                    <span className="text-lg">{tweet.tweet}</span>
+                  <div className="flex flex-col gap-2 p-2 border rounded-md w-full">
+                    <span className="text-sm">{tweet.tweet}</span>
                     <div className="flex gap-2 *:text-neutral-500">
-                      <span className="text-sm">
+                      <span className="text-xs">
                         {formatToTimeAgo(tweet.created_at.toString())}
                       </span>
                     </div>

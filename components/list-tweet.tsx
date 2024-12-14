@@ -8,7 +8,7 @@ interface ListTweetProps {
 export default function ListTweet({ created_at, id, tweet }: ListTweetProps) {
   return (
     <Link href={`/tweets/${id}`} className="flex gap-5">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 border-1 border rounded-md w-full p-2">
         <span className="text-lg">{tweet}</span>
         <div className="flex gap-2 *:text-neutral-500">
           <span className="text-sm">
