@@ -4,7 +4,7 @@ import "@/lib/db";
 import Button from "@/components/button";
 import Input from "@/components/input";
 import { useFormState } from "react-dom";
-import { logIn } from "../actions";
+import { logIn } from "./actions";
 import { EnvelopeIcon, LockClosedIcon } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
@@ -24,7 +24,7 @@ export default function LogIn() {
           placeholder="Email"
           Icon={EnvelopeIcon}
           required
-          errors={state?.fieldErrors.email}
+          errors={state?.fieldErrors?.email}
         />
 
         <Input
@@ -34,13 +34,13 @@ export default function LogIn() {
           Icon={LockClosedIcon}
           required
           minLength={PASSWORD_MIN_LENGTH}
-          errors={state?.fieldErrors.password}
+          errors={state?.fieldErrors?.password}
         />
         <Button text="Log in" />
 
         <Link
           href="/create-account"
-          className=" font-medium flex justify-center text-sm"
+          className="font-medium flex justify-center text-sm"
         >
           회원가입
         </Link>

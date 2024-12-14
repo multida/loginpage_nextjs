@@ -20,7 +20,7 @@ export default function EditUser() {
           type="text"
           placeholder="Username"
           required
-          errors={state?.fieldErrors.username}
+          errors={state?.fieldErrors?.username}
           minLength={3}
           maxLength={10}
         />
@@ -29,13 +29,13 @@ export default function EditUser() {
           type="email"
           placeholder="Email"
           required
-          errors={state?.fieldErrors.email}
+          errors={state?.fieldErrors?.email}
         />
         <Input
           name="bio"
           type="text"
           placeholder="bio"
-          errors={state?.fieldErrors.bio}
+          errors={state?.fieldErrors?.bio}
         />
         <Input
           name="password"
@@ -43,7 +43,7 @@ export default function EditUser() {
           placeholder="Password"
           minLength={PASSWORD_MIN_LENGTH}
           required
-          errors={state?.fieldErrors.password}
+          errors={state?.fieldErrors?.password}
         />
         <Input
           name="confirm_password"
@@ -51,7 +51,7 @@ export default function EditUser() {
           placeholder="Confirm Password"
           required
           minLength={PASSWORD_MIN_LENGTH}
-          errors={state?.fieldErrors.confirm_password}
+          errors={state?.fieldErrors?.confirm_password}
         />
         <Button text="수정 완료" />
       </form>

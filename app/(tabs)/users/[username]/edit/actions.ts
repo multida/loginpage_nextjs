@@ -1,20 +1,20 @@
 "use server";
-import bcrypt from "bcrypt";
-import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
-import db from "@/lib/db";
-import { z } from "zod";
-import { redirect } from "next/navigation";
-import getSession from "@/lib/session";
 
-// 타입 정의 추가
-type EditProfileState = {
+import { z } from "zod";
+import db from "@/lib/db";
+import { redirect } from "next/navigation";
+import bcrypt from "bcrypt";
+import getSession from "@/lib/session";
+import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
+
+export type EditProfileState = {
   fieldErrors?: {
     username?: string[];
     email?: string[];
+    bio?: string[];
     password?: string[];
     confirm_password?: string[];
-    bio?: string[];
-  };
+  } | null;
 };
 
 const checkUsername = (username: string) => !username.includes("potato");
@@ -27,57 +27,13 @@ const checkPasswords = ({
   confirm_password: string;
 }) => password === confirm_password;
 
-const formSchema = z
+const profileSchema = z
   .object({
-    username: z
-      .string({
-        invalid_type_error: "Username must be a string!",
-        required_error: "Where is my username???",
-      })
-      .trim()
-      .refine(checkUsername, "No potatoes allowed!"),
+    username: z.string().trim().refine(checkUsername, "No potatoes allowed!"),
     email: z.string().email().toLowerCase(),
+    bio: z.string().optional(),
     password: z.string().min(PASSWORD_MIN_LENGTH),
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
-    bio: z.string().optional(),
-  })
-  .superRefine(async ({ username }, ctx) => {
-    const user = await db.user.findUnique({
-      where: {
-        username,
-      },
-      select: {
-        id: true,
-      },
-    });
-    if (user) {
-      ctx.addIssue({
-        code: "custom",
-        message: "This username is already taken",
-        path: ["username"],
-        fatal: true,
-      });
-      return z.NEVER;
-    }
-  })
-  .superRefine(async ({ email }, ctx) => {
-    const user = await db.user.findUnique({
-      where: {
-        email,
-      },
-      select: {
-        id: true,
-      },
-    });
-    if (user) {
-      ctx.addIssue({
-        code: "custom",
-        message: "This email is already taken",
-        path: ["email"],
-        fatal: true,
-      });
-      return z.NEVER;
-    }
   })
   .refine(checkPasswords, {
     message: "Both passwords should be the same!",
@@ -85,39 +41,72 @@ const formSchema = z
   });
 
 export async function editProfile(
-  prevState: EditProfileState,
+  prevState: EditProfileState | null,
   formData: FormData
-): Promise<EditProfileState> {
+): Promise<EditProfileState | null> {
+  const session = await getSession();
+
+  if (!session.id) {
+    return {
+      fieldErrors: {
+        username: ["로그인이 필요합니다."],
+      },
+    };
+  }
+
   const data = {
     username: formData.get("username"),
     email: formData.get("email"),
+    bio: formData.get("bio"),
     password: formData.get("password"),
     confirm_password: formData.get("confirm_password"),
-    bio: formData.get("bio"),
   };
 
-  const result = await formSchema.spa(data);
+  const result = await profileSchema.spa(data);
 
   if (!result.success) {
-    return result.error.flatten();
-  } else {
-    const hashedPassword = await bcrypt.hash(result.data.password, 12);
-    const user = await db.user.create({
-      data: {
-        username: result.data.username,
-        email: result.data.email,
-        password: hashedPassword,
-        bio: result.data.bio,
-      },
-      select: {
-        id: true,
-      },
-    });
-
-    const session = await getSession();
-    session.id = user.id;
-    await session.save();
-
-    redirect("/users");
+    return {
+      fieldErrors: result.error.flatten().fieldErrors,
+    };
   }
+
+  const existingUserByUsername = await db.user.findUnique({
+    where: { username: result.data.username },
+    select: { id: true },
+  });
+
+  if (existingUserByUsername && existingUserByUsername.id !== session.id) {
+    return {
+      fieldErrors: {
+        username: ["이미 사용 중인 사용자 이름입니다."],
+      },
+    };
+  }
+
+  const existingUserByEmail = await db.user.findUnique({
+    where: { email: result.data.email },
+    select: { id: true },
+  });
+
+  if (existingUserByEmail && existingUserByEmail.id !== session.id) {
+    return {
+      fieldErrors: {
+        email: ["이미 사용 중인 이메일입니다."],
+      },
+    };
+  }
+
+  const hashedPassword = await bcrypt.hash(result.data.password, 12);
+
+  await db.user.update({
+    where: { id: session.id },
+    data: {
+      username: result.data.username,
+      email: result.data.email,
+      bio: result.data.bio,
+      password: hashedPassword,
+    },
+  });
+
+  redirect("/users");
 }

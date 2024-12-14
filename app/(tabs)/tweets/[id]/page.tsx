@@ -91,7 +91,6 @@ export default async function TweetDetail({
     });
 
     if (!comment) {
-      // 에러 발생 시 리다이렉트
       redirect(`/tweets/${tweet.id}?error=댓글을 삭제할 수 없습니다.`);
     }
 

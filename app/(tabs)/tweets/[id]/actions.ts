@@ -5,7 +5,6 @@ import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 
-// 타입 정의 추가
 type ActionState = {
   id?: number;
   fieldErrors?: Record<string, string[]>;
