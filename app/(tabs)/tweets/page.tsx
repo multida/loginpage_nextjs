@@ -5,20 +5,25 @@ import { Prisma } from "@prisma/client";
 import Link from "next/link";
 
 async function getPosts() {
-  const tweets = await db.tweet.findMany({
-    select: {
-      id: true,
-      views: true,
-      created_at: true,
-      _count: {
-        select: {
-          comment: true,
-          like: true,
+  try {
+    const tweets = await db.tweet.findMany({
+      select: {
+        id: true,
+        views: true,
+        created_at: true,
+        _count: {
+          select: {
+            comment: true,
+            like: true,
+          },
         },
       },
-    },
-  });
-  return tweets;
+    });
+    return tweets;
+  } catch (error) {
+    console.error("Error fetching tweets:", error);
+    return [];
+  }
 }
 
 async function getInitialTweets() {
@@ -39,7 +44,7 @@ async function getInitialTweets() {
 export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 
 export default async function Tweets() {
-  const initialTweets = await getInitialTweets();
+  const initialTweets = await getInitialTweets().catch(() => []);
   const tweets = await getPosts();
   console.log(tweets);
 
@@ -48,7 +53,11 @@ export default async function Tweets() {
     <>
       <div className="relative">
         <div>
-          <TweetList initialTweets={initialTweets} />
+          {initialTweets.length > 0 ? (
+            <TweetList initialTweets={initialTweets} />
+          ) : (
+            <div className="text-center mt-20">No tweets</div>
+          )}
         </div>
         {showAddTweetButton && (
           <Link
