@@ -1,12 +1,15 @@
 "use client";
 
-import { InitialTweets } from "@/app/(tabs)/tweets/page";
 import ListTweet from "./list-tweet";
 import { useEffect, useRef, useState } from "react";
 import { getMoreTweets } from "@/app/(tabs)/tweets/actions";
 
-interface TweetListProps {
-  initialTweets: InitialTweets;
+export interface TweetListProps {
+  initialTweets: {
+    tweet: string;
+    id: number;
+    created_at: Date;
+  }[];
 }
 
 export default function TweetList({ initialTweets }: TweetListProps) {
