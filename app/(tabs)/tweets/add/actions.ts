@@ -4,6 +4,7 @@ import { z } from "zod";
 import db from "@/lib/db";
 import getSession from "@/lib/session";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export type ActionState = {
   success?: boolean;
@@ -18,7 +19,6 @@ const productSchema = z.object({
     required_error: "Tweet is required",
   }),
 });
-
 export async function uploadTweet(
   prevState: ActionState | null,
   formData: FormData
@@ -51,6 +51,7 @@ export async function uploadTweet(
         id: true,
       },
     });
+    revalidatePath("/tweets");
 
     redirect(`/tweets/${tweet.id}`);
   }
