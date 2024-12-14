@@ -15,35 +15,29 @@ type ActionState = {
 export const likePost = async (tweetId: number) => {
   "use server";
   const session = await getSession();
-  try {
-    await db.like.create({
-      data: {
-        tweetId,
-        userId: session.id!,
-      },
-    });
-    revalidateTag(`like-status-${tweetId}`);
-  } catch (e) {
-    console.error(e);
-  }
+
+  await db.like.create({
+    data: {
+      tweetId,
+      userId: session.id!,
+    },
+  });
+  revalidateTag(`like-status-${tweetId}`);
 };
 
 export const dislikePost = async (tweetId: number) => {
   "use server";
   const session = await getSession();
-  try {
-    await db.like.delete({
-      where: {
-        id: {
-          tweetId,
-          userId: session.id!,
-        },
+
+  await db.like.delete({
+    where: {
+      id: {
+        tweetId,
+        userId: session.id!,
       },
-    });
-    revalidateTag(`like-status-${tweetId}`);
-  } catch (e) {
-    console.error(e);
-  }
+    },
+  });
+  revalidateTag(`like-status-${tweetId}`);
 };
 
 const commentSchema = z.object({

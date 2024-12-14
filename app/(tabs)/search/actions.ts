@@ -3,27 +3,23 @@
 import db from "@/lib/db";
 
 export async function fetchTweets() {
-  try {
-    const tweets = await db.tweet.findMany({
-      include: {
-        user: {
-          select: { username: true },
-        },
-      },
-      orderBy: {
-        created_at: "desc",
-      },
-    });
-
-    return tweets.map((tweet) => ({
-      id: tweet.id,
-      tweet: tweet.tweet,
-      created_at: tweet.created_at,
+  const tweets = await db.tweet.findMany({
+    include: {
       user: {
-        username: tweet.user.username,
+        select: { username: true },
       },
-    }));
-  } catch (error) {
-    console.error(error);
-  }
+    },
+    orderBy: {
+      created_at: "desc",
+    },
+  });
+
+  return tweets.map((tweet) => ({
+    id: tweet.id,
+    tweet: tweet.tweet,
+    created_at: tweet.created_at,
+    user: {
+      username: tweet.user.username,
+    },
+  }));
 }

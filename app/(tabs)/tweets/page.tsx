@@ -38,16 +38,12 @@ async function getInitialTweets() {
 
 export type InitialTweets = Prisma.PromiseReturnType<typeof getInitialTweets>;
 
-interface TweetsProps {
-  showAddTweetButton?: boolean;
-}
-
-export default async function Tweets({
-  showAddTweetButton = true,
-}: TweetsProps) {
+export default async function Tweets() {
   const initialTweets = await getInitialTweets();
   const tweets = await getPosts();
   console.log(tweets);
+
+  const showAddTweetButton = true;
   return (
     <>
       <div className="relative">
