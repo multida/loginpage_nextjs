@@ -36,7 +36,9 @@ export default async function Tweets() {
           {initialTweets.length > 0 ? (
             <TweetList initialTweets={initialTweets} />
           ) : (
-            <div className="text-center mt-20">No tweets available!</div>
+            <div className="p-5 flex flex-col gap-5 h-[calc(100vh-100px)] overflow-y-auto max-w-3xl mx-auto text-center">
+              트윗이 없습니다!
+            </div>
           )}
         </div>
         {showAddTweetButton && (
