@@ -39,8 +39,8 @@ export default function SearchPage() {
   };
 
   return (
-    <div className="flex flex-col max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
-      <div className="mb-6">
+    <div className="max-w-xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl p-6 h-[calc(100vh-100px)] overflow-y-auto flex flex-col gap-4">
+      <div className="">
         <input
           type="text"
           value={keyword}

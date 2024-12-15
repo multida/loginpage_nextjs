@@ -31,7 +31,7 @@ export default async function Tweets() {
   const showAddTweetButton = true;
   return (
     <>
-      <div className="relative">
+      <div className="max-w-xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl p-6 h-[calc(100vh-100px)] overflow-y-auto flex flex-col gap-4 relative">
         <div>
           {initialTweets.length > 0 ? (
             <TweetList initialTweets={initialTweets} />
@@ -44,7 +44,7 @@ export default async function Tweets() {
         {showAddTweetButton && (
           <Link
             href="/tweets/add"
-            className="bg-orange-500 flex items-center justify-center rounded-full size-16 absolute bottom-14 right-8 text-white transition-colors hover:bg-orange-400"
+            className="bg-orange-500 flex items-center justify-center rounded-full w-16 h-16 absolute top-[calc(100vh-200px)] left-[calc(100%-100px)] text-white transition-colors hover:bg-orange-400"
           >
             <PlusIcon className="size-10" />
           </Link>

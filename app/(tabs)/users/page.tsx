@@ -76,8 +76,8 @@ export default async function Profile() {
     redirect("/");
   };
   return (
-    <div className="flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
-      <section>
+    <div className="max-w-xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl h-[calc(100vh-100px)] overflow-y-auto">
+      <section className="p-6">
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">회원 정보</h2>
         <p className="text-gray-700">
           <strong>이름:</strong> {user?.username}
@@ -101,7 +101,7 @@ export default async function Profile() {
           </button>
         </form>
       </section>
-      <section>
+      <section className="p-6">
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">
           나의 트윗 목록
         </h2>
@@ -126,7 +126,7 @@ export default async function Profile() {
           <p className="text-gray-500">아직 작성한 트윗이 없습니다.</p>
         )}
       </section>
-      <section>
+      <section className="p-6">
         <h2 className="text-2xl font-bold border-b pb-2 mb-4">
           내가 작성한 댓글 목록
         </h2>

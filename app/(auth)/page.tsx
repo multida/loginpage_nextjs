@@ -13,9 +13,13 @@ export default function LogIn() {
   const [state, dispatch] = useFormState(logIn, null);
 
   return (
-    <div className="flex flex-col gap-10 max-w-3xl mx-auto p-6 bg-white shadow-md rounded-lg h-[calc(100vh-100px)] overflow-y-auto mt-4">
-      <div className="flex flex-col gap-2 *:font-medium">
-        <h1 className="text-5xl text-center">🔥</h1>
+    <div className="max-w-xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden transition-all duration-300 hover:shadow-xl p-6 h-[calc(100vh-10px)] overflow-y-auto flex flex-col gap-4 relative">
+      <div className="flex flex-col items-center gap-3 mb-6">
+        <span className="text-6xl">🐸</span>
+        <h1 className="text-xl font-bold text-gray-800 tracking-tight">
+          Yeahap's Tweet
+        </h1>
+        <div className="h-1 w-20 bg-gray-300 rounded-full"></div>
       </div>
       <form action={dispatch} className="flex flex-col gap-5">
         <Input

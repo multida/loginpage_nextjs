@@ -47,7 +47,7 @@ export default function TweetList({ initialTweets }: TweetListProps) {
     };
   }, [page]);
   return (
-    <div className="p-5 flex flex-col gap-5 h-[calc(100vh-100px)] overflow-y-auto max-w-3xl mx-auto">
+    <div className="flex flex-col gap-4">
       {tweets.map((tweet) => (
         <ListTweet key={tweet.id} {...tweet} />
       ))}
@@ -59,7 +59,7 @@ export default function TweetList({ initialTweets }: TweetListProps) {
       {!isLastPage ? (
         <span
           ref={trigger}
-          className="text-sm font-semibold bg-orange-500 w-fit mx-auto px-3 py-2 rounded-md hover:opacity-90 active:scale-95"
+          className="text-sm font-semibold bg-orange-500 w-fit mx-auto px-3 mt-5 py-2 rounded-md hover:opacity-90 active:scale-95 block text-center"
         >
           {isLoading ? "로딩 중" : "Load more"}
         </span>
