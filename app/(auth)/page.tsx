@@ -17,7 +17,7 @@ export default function LogIn() {
       <div className="flex flex-col items-center gap-3 mb-6">
         <span className="text-6xl">🐸</span>
         <h1 className="text-xl font-bold text-gray-800 tracking-tight">
-          Yeahap's Tweet
+          Yeahap&apos;s Tweet
         </h1>
         <div className="h-1 w-20 bg-gray-300 rounded-full"></div>
       </div>
